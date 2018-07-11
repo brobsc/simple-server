@@ -11,7 +11,7 @@ app.locals.hostname = 'brobsc.me'
 // app.use(vhost('*localhost', app));
 
 app.get('/', (req, res) => {
-  console.log(`${req.connection.remoteAddress} has connected`)
+  console.log(`${req.connection.remoteAddress} has requested`)
   if (app.locals.hostname != req.hostname) {
     console.log(`req has tried '${req.subdomains.join('.')}' subdomain. sending base`)
     res.redirect(`http://${app.locals.hostname}:80`)
