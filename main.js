@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
     console.log(`req has tried '${req.subdomains.join('.')}' subdomain. sending base`)
     res.redirect(`http://${app.locals.hostname}:80`)
   }
+  next()
+}, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
