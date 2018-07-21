@@ -15,7 +15,7 @@ app.use(vhost('blog.' + app.locals.hostname, (req, res, next) => {
 }))
 app.use(vhost('*' + app.locals.hostname, app));
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
   console.log(`${req.connection.remoteAddress} has requested`)
   if (app.locals.hostname !== req.hostname) {
     console.log(`req has tried '${req.subdomains.join('.')}' subdomain. sending base`)
