@@ -19,7 +19,11 @@ app.use(vhost('blog.' + app.locals.hostname, (req, res, next) => {
   console.log('Blog reached')
   blackrole.app.handle(req, res, next)
 }))
-// app.use(vhost('*' + app.locals.hostname, app));
+app.use(vhost('seafile.' + app.locals.hostname, (req, res, next) => {
+  console.log('Seafile reached')
+  res.redirect(`http://${app.locals.hostname}:8090`)
+}))
+app.use(vhost('*' + app.locals.hostname, app));
 
 redirectToBase = (req, res, next) => {
   console.log(`${req.connection.remoteAddress} has requested`)
