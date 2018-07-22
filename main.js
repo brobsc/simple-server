@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
-const readFileSync = require('fs').readFileSync
-const https = require('https')
 const express = require('express')
 const vhost = require('vhost')
 const path = require('path')
 const app = express()
 const blackrole = require('../blackrole')
-
-const PORT = 8080
 
 app.use(express.static(path.join(__dirname, 'static')))
 app.locals.hostname = 'brobsc.test'
@@ -51,15 +47,4 @@ app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-if (process.env.NODE_ENV === 'production') {
-  const options = {
-    key: readFileSync('/etc/simple-server/privkey.pem'),
-    cert: readFileSync('/etc/simple-server/cert.pem'),
-  };
-
-  https.createServer(options, app).listen(PORT , function(){
-    console.log("Https server listening on port 8080");
-  });
-} else {
-  app.listen(PORT, () => console.log('Listening on port 8080'))
-}
+app.listen(8080, () => console.log('Listening on port 8080'))
