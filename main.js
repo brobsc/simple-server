@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const readFileSync = require('fs').readFileSync
+const https = require('https')
 const express = require('express')
 const vhost = require('vhost')
 const path = require('path')
@@ -47,4 +49,15 @@ app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-app.listen(8080, () => console.log('Listening on port 8080'))
+if (process.env.NODE_ENV === 'production') {
+  const options = {
+    key: readFileSync('./ssl/privatekey.pem'),
+    cert: readFileSync('./ssl/certificate.pem'),
+  };
+
+  https.createServer(options, app).listen(PORT , function(){
+    console.log("Https server listening on port 8080");
+  });
+} else {
+  app.listen(8080, () => console.log('Listening on port 8080'))
+}
