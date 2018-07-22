@@ -51,8 +51,8 @@ app.get('/', (req, res, next) => {
 
 if (process.env.NODE_ENV === 'production') {
   const options = {
-    key: readFileSync('/etc/letsencrypt/live/brobsc.me/privkey.pem'),
-    cert: readFileSync('/etc/letsencrypt/live/brobsc.me/cert.pem'),
+    key: readFileSync('/etc/simple-server/privkey.pem'),
+    cert: readFileSync('/etc/simple-server/cert.pem'),
   };
 
   https.createServer(options, app).listen(PORT , function(){
