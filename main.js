@@ -4,7 +4,6 @@ const express = require('express')
 const vhost = require('vhost')
 const path = require('path')
 const app = express()
-const blackrole = require('../blackrole')
 
 app.use(express.static(path.join(__dirname, 'static')))
 app.locals.hostname = 'brobsc.test'
@@ -15,14 +14,8 @@ if (process.env.NODE_ENV === 'production') {
   console.log('Running on dev mode')
 }
 
-app.use(vhost('blog.' + app.locals.hostname, (req, res, next) => {
-  console.log('Blog reached')
-  blackrole.app.handle(req, res, next)
-}))
-app.use(vhost('seafile.' + app.locals.hostname, (req, res, next) => {
-  console.log('Seafile reached')
-  res.redirect(`http://${app.locals.hostname}:8090`)
-}))
+port = process.env.NODE_PORT || 8080;
+
 app.use(vhost('*' + app.locals.hostname, app));
 
 redirectToBase = (req, res, next) => {
@@ -47,4 +40,4 @@ app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-app.listen(8080, () => console.log('Listening on port 8080'))
+app.listen(port, () => console.log(`Listening on ${app.locals.hostname}:${port}`))
